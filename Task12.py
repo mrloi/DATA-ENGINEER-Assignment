@@ -10,28 +10,27 @@ df.info()
 
 #Task2:
 #Cleaning and transform data
-#Loại bỏ dữ liệu trùng lập
+#Eliminate duplicate data
 df['is_duplicate'] = df.duplicated()
 df = df[df['is_duplicate'] == False]
 df = df.drop(columns=['is_duplicate'])
 
-#Kiểm tra dữ liệu bị thiếu hay không
+#Check if data is missing or not
 df.isnull()
 df.isnull().values.any()
 
 
-#Kiểm tra và xử lý dữ liệu ngoại lai (outliers)
+#Check and handle outliers data (outliers)
 # Tính toán phạm vi IQR cho từng trường
-df = df.drop('DateTime', axis=1)  # axis=1 để chỉ định loại bỏ theo cột
+df = df.drop('DateTime', axis=1)  
 
 Q1 = df.quantile(0.25)
 Q3 = df.quantile(0.75)
 IQR = Q3 - Q1
 
-# Xác định các giá trị ngoại lai cho từng trường
+# Identify outliers for each field
 outliers = (df < Q1 - 1.5 * IQR) | (df > Q3 + 1.5 * IQR)
 
-# In các giá trị ngoại lai cho từng trường
 outliers
 outlier_count = outliers.sum()
 
